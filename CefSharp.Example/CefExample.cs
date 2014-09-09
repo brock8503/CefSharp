@@ -38,7 +38,8 @@ namespace CefSharp.Example
                 }
             }
 
-            Cef.RegisterJsObject("bound", new BoundObject());
+            //Cef.RegisterJsObject("bound", new BoundObject());
+            Cef.RegisterJsObject("PollEvPowerPoint", new BoundObject());
         }
     }
 }

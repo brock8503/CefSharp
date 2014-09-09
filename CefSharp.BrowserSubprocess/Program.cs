@@ -4,6 +4,7 @@
 
 using System;
 using CefSharp.Internals;
+using System.Diagnostics;
 
 namespace CefSharp.BrowserSubprocess
 {
