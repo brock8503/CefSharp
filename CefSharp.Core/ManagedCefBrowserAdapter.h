@@ -111,6 +111,7 @@ namespace CefSharp
             else
             {
                 DoDispose(true);
+                Process::GetCurrentProcess()->Close();
             }
         }
 
