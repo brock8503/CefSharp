@@ -9,7 +9,6 @@
 
 #include <deque>
 
-using namespace std;
 
 namespace CefSharp
 {

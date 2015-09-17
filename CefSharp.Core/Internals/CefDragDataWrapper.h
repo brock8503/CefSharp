@@ -10,7 +10,6 @@
 
 #include "CefWrapper.h"
 
-using namespace std;
 using namespace System;
 using namespace System::IO;
 using namespace CefSharp;
@@ -77,7 +76,7 @@ namespace CefSharp
             {
                 IList<String^>^ get()
                 {
-                    auto names = vector<CefString>();
+                    auto names = std::vector<CefString>();
                     _wrappedDragData->GetFileNames(names);
 
                     return StringUtils::ToClr(names);

@@ -7,7 +7,6 @@
 
 #include "include/cef_app.h"
 
-using namespace std;
 
 namespace CefSharp
 {
@@ -28,10 +27,10 @@ namespace CefSharp
                 auto result = list->GetType(index) == VTYPE_BINARY;
                 if (result)
                 {
-                    underlying_type<PrimitiveType>::type typeRead;
+                    std::underlying_type<PrimitiveType>::type typeRead;
                     auto binaryValue = list->GetBinary(index);
-                    binaryValue->GetData(&typeRead, sizeof(underlying_type<PrimitiveType>::type), 0);
-                    result = typeRead == static_cast<underlying_type<PrimitiveType>::type>(type);
+                    binaryValue->GetData(&typeRead, sizeof(std::underlying_type<PrimitiveType>::type), 0);
+                    result = typeRead == static_cast<std::underlying_type<PrimitiveType>::type>(type);
                 }
                 return result;
             }
