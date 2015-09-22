@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="CefRenderProcess.cs" />
     <Compile Include="CefSubProcess.cs" />
+    <Compile Include="ParentProcessUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

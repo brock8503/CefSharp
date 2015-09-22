@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CefSharp.Internals;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
 
 namespace CefSharp.BrowserSubprocess
 {
@@ -41,6 +44,49 @@ namespace CefSharp.BrowserSubprocess
                     return wcfEnabled ? new CefRenderProcess(args) : new CefSubProcess(args);
                 }
                 case "gpu-process":
+                { 
+                    return new CefSubProcess(args);
+                }
+                case "ppapi":
+                {
+                    // HACK ALERT: PPAPI and the flashplayer.dll are executing a 
+                    // "cmd.exe /c echo NOT SANDBOXED" on init of the PPAPI flash player. 
+                    // This shows a cmd.exe window above all other windows for a second.
+                    // This is a poor user experience and until we can get that bug fixed 
+                    // we are trying our best to kill cmd.exe spawned from this parent process
+                    Task t = Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            int myId = Process.GetCurrentProcess().Id;
+                            while (true)
+                            {
+                                var cmd = Process.GetProcesses().
+                                                     Where(pr => pr.ProcessName == "cmd");
+
+                                if (cmd != null)
+                                {
+                                    foreach (var process in cmd)
+                                    {
+                                        if(myId == ParentProcessUtil.GetParentProcess(process.Id).Id)
+                                        {
+                                            process.Kill();
+                                            Kernel32.OutputDebugString("Kill the nasty echo");
+                                            return; 
+                                        }
+                                    }
+                                }
+
+                                Thread.Sleep(100);
+                            }
+                        }
+                        catch
+                        {
+                            Kernel32.OutputDebugString("Failed to kill that cmd");
+                        }
+                    });
+                    return new CefSubProcess(args);
+                }
                 default:
                 {
                     return new CefSubProcess(args);
